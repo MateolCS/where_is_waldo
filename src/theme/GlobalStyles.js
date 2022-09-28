@@ -10,6 +10,15 @@ const GlobalStyle = styled.createGlobalStyle`
   body {
     font-family: "Jost", sans-serif;
   }
+
+  a {
+    text-decoration: none;
+  }
+
+  #root {
+    position: relative;
+    min-height: 100vh;
+  }
 `;
 
 export default GlobalStyle;
