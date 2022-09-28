@@ -7,8 +7,13 @@ const GlobalStyle = styled.createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    height: 100%;
+  }
+
   body {
     font-family: "Jost", sans-serif;
+    height: 100%;
   }
 
   a {
