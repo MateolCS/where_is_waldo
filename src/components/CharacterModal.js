@@ -1,7 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useEffect } from "react";
 
-const CharacterModal = ({ isOpen, topCord, rightCord }) => {
+const CharacterModal = ({
+  isOpen,
+  topCord,
+  rightCord,
+  characters,
+  onItemClick,
+}) => {
+  useEffect(() => {}, [isOpen]);
+
   return (
     <StyledCharacterModal
       isOpen={isOpen}
@@ -9,8 +18,18 @@ const CharacterModal = ({ isOpen, topCord, rightCord }) => {
       rightCord={rightCord}
     >
       <ModalContent>
-        <ModalContentItem>Waldo</ModalContentItem>
-        <ModalContentItem>WizzardBarry</ModalContentItem>
+        {characters.map((character) => {
+          return (
+            <ModalContentItem
+              key={character.name}
+              onClick={() => {
+                onItemClick(character);
+              }}
+            >
+              {character.name}
+            </ModalContentItem>
+          );
+        })}
       </ModalContent>
     </StyledCharacterModal>
   );
