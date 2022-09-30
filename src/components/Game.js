@@ -23,10 +23,16 @@ const Game = () => {
   ]);
 
   const getCoordinates = (e) => {
-    let rect = e.target.getBoundingClientRect();
-    setTopCord(e.clientY - rect.left);
-    setRightCord(e.clientX - rect.top);
+    setTopCord(e.screenY - 122);
+    if (e.screenX < window.screen.width / 2) {
+      setRightCord(e.screenX);
+    } else {
+      setRightCord(-e.screenX);
+    }
+
     openModal ? setOpenModal(false) : setOpenModal(true);
+
+    //https://stackoverflow.com/questions/51809099/positioning-div-left-right-or-top-bottom-of-a-mouse-click-with-css
   };
 
   const handleCharacterClick = (inCharacter) => {

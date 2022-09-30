@@ -40,6 +40,10 @@ const StyledCharacterModal = styled.div`
   position: absolute;
   top: ${({ topCord }) => topCord}px;
   right: ${({ rightCord }) => rightCord}px;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #2d3142;
 `;
 
 const ModalContent = styled.nav`
@@ -54,6 +58,14 @@ const ModalContentItem = styled.li`
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
+  padding: 5px;
+  color: #dfe0e0;
+  font-size: 1.2rem;
+
+  &:hover {
+    cursor: pointer;
+    color: #ef8354;
+  }
 `;
 
 export default CharacterModal;
