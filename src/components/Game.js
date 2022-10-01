@@ -13,7 +13,7 @@ const Game = () => {
       isFound: false,
     },
     {
-      name: "WizzardBarry",
+      name: "Wenda",
       isFound: false,
     },
     {

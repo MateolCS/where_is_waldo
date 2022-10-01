@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
+import { FaCheck } from "react-icons/fa";
 
 const CharacterModal = ({
   isOpen,
@@ -28,6 +29,7 @@ const CharacterModal = ({
               }}
             >
               {character.name}
+              {character.isFound && <FaCheck />}
             </ModalContentItem>
           );
         })}
@@ -42,7 +44,7 @@ const StyledCharacterModal = styled.div`
   top: ${({ topCord }) => topCord}px;
   left: ${({ leftCord }) => leftCord}px;
   border: 2px solid black;
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   background-color: #2d3142;
 `;
@@ -58,7 +60,7 @@ const ModalContentItem = styled.li`
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 1rem;
   padding: 5px;
   color: #dfe0e0;
   font-size: 1.2rem;
