@@ -6,7 +6,7 @@ import { useState } from "react";
 const Game = () => {
   const [openModal, setOpenModal] = useState(false);
   const [topCord, setTopCord] = useState(0);
-  const [rightCord, setRightCord] = useState(0);
+  const [leftCord, setLeftCord] = useState(0);
   const [characters, setCharacters] = useState([
     {
       name: "Waldo",
@@ -23,16 +23,26 @@ const Game = () => {
   ]);
 
   const getCoordinates = (e) => {
-    setTopCord(e.screenY - 122);
-    if (e.screenX < window.screen.width / 2) {
-      setRightCord(e.screenX);
+    if (e.target.parentElement.parentElement.id === "modal") {
+      return;
     } else {
-      setRightCord(-e.screenX);
+      const modal = document.querySelector("#modal");
+
+      let newLeft =
+        window.innerWidth - e.pageX < modal.offsetWidth
+          ? e.pageX - modal.offsetWidth
+          : e.pageX;
+      modal.style.left = newLeft + "px";
+
+      let newTop =
+        window.innerHeight - e.pageY < modal.offsetHeight
+          ? e.pageY - modal.offsetHeight
+          : e.pageY;
+
+      openModal ? setOpenModal(false) : setOpenModal(true);
+      setTopCord(newTop);
+      setLeftCord(newLeft);
     }
-
-    openModal ? setOpenModal(false) : setOpenModal(true);
-
-    //https://stackoverflow.com/questions/51809099/positioning-div-left-right-or-top-bottom-of-a-mouse-click-with-css
   };
 
   const handleCharacterClick = (inCharacter) => {
@@ -56,7 +66,7 @@ const Game = () => {
         characters={characters}
         isOpen={openModal}
         topCord={topCord}
-        rightCord={rightCord}
+        leftCord={leftCord}
       />
     </StyledGame>
   );

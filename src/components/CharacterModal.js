@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const CharacterModal = ({
   isOpen,
   topCord,
-  rightCord,
+  leftCord,
   characters,
   onItemClick,
 }) => {
@@ -13,9 +13,10 @@ const CharacterModal = ({
 
   return (
     <StyledCharacterModal
+      id="modal"
       isOpen={isOpen}
       topCord={topCord}
-      rightCord={rightCord}
+      leftCord={leftCord}
     >
       <ModalContent>
         {characters.map((character) => {
@@ -39,7 +40,7 @@ const StyledCharacterModal = styled.div`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   position: absolute;
   top: ${({ topCord }) => topCord}px;
-  right: ${({ rightCord }) => rightCord}px;
+  left: ${({ leftCord }) => leftCord}px;
   border: 2px solid black;
   padding: 10px;
   border-radius: 5px;
