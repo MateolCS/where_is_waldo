@@ -3,20 +3,20 @@ import Game from "./components/Game";
 import Header from "./components/Header";
 import { useState } from "react";
 const App = () => {
-  const [timerOn, setTimerOn] = useState(false);
+  const [timerOn, setTimerOn] = useState(true);
 
   const pauseTimer = () => {
     setTimerOn(false);
   };
 
-  const unPauseTimer = () => {
+  const resumeTimer = () => {
     setTimerOn(true);
   };
 
   return (
     <>
       <Header timerOn={timerOn} />
-      <Game onTimerPause={pauseTimer} onTimerUnPause={unPauseTimer} />
+      <Game onTimerPause={pauseTimer} onTimerResume={resumeTimer} />
       <Footer />
     </>
   );

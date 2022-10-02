@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Timer from "./Timer";
 
-const Header = () => {
+const Header = ({ timerOn }) => {
   return (
     <StyledHeader>
       <Contianer>
         <HeaderTitle>Where is Waldo?</HeaderTitle>
-        <Timer timerOn={true} />
+        <Timer timerOn={timerOn} />
       </Contianer>
     </StyledHeader>
   );

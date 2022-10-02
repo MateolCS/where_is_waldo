@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import CharacterModal from "./CharacterModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const Game = () => {
+const Game = ({ onTimerPause, onTimerResume }) => {
   const [openModal, setOpenModal] = useState(false);
   const [topCord, setTopCord] = useState(0);
   const [leftCord, setLeftCord] = useState(0);
@@ -21,6 +21,16 @@ const Game = () => {
       isFound: false,
     },
   ]);
+
+  useEffect(() => {
+    if (allCharactersFound()) {
+      onTimerPause();
+    }
+  });
+
+  const allCharactersFound = () => {
+    return characters.every((character) => character.isFound);
+  };
 
   const getCoordinates = (e) => {
     if (e.target.parentElement.parentElement.id === "modal") {
@@ -45,7 +55,7 @@ const Game = () => {
     }
   };
 
-  const handleCharacterClick = (inCharacter) => {
+  const handleCharacterClick = async (inCharacter) => {
     setCharacters(
       characters.map((character) =>
         character.name === inCharacter.name
