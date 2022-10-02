@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import Timer from "./Timer";
 
 const Header = () => {
   return (
     <StyledHeader>
       <Contianer>
         <HeaderTitle>Where is Waldo?</HeaderTitle>
+        <Timer timerOn={true} />
       </Contianer>
     </StyledHeader>
   );
@@ -21,7 +23,7 @@ const Contianer = styled.div`
   width: 90%;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
