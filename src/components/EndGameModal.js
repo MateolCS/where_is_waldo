@@ -3,26 +3,38 @@ import styled from "styled-components";
 import { useState } from "react";
 const EndGameModal = ({ gameTime }) => {
   const [playerName, setPlayerName] = useState("");
-  const [isPlayerNameSet, setIsPlayerNameSet] = useState(false);
+  const [isPlayerNameSet, setIsPlayerNameSet] = useState(true);
   return (
     <StyledEndGameModal>
       <Container>
         <EndGameTitle>
           {isPlayerNameSet ? "Leaderboard" : "Enter your name"}
         </EndGameTitle>
-        <EndGameForm>
-          <FormRow>
-            <FormLabel>Player Name</FormLabel>
-            <FormInput
-              type={"text"}
-              value={playerName}
-              onChange={(e) => {
-                setPlayerName(e.target.value);
-              }}
-            />
-          </FormRow>
-          <SubmitButton>Submit your name</SubmitButton>
-        </EndGameForm>
+        {isPlayerNameSet === false && (
+          <EndGameForm>
+            <FormRow>
+              <FormLabel>Player Name</FormLabel>
+              <FormInput
+                type={"text"}
+                value={playerName}
+                onChange={(e) => {
+                  setPlayerName(e.target.value);
+                }}
+              />
+            </FormRow>
+            <SubmitButton>Submit your name</SubmitButton>
+          </EndGameForm>
+        )}
+        {isPlayerNameSet && (
+          <ScoreTable>
+            <tbody>
+              <tr>
+                <th>Player names</th>
+                <th>Time</th>
+              </tr>
+            </tbody>
+          </ScoreTable>
+        )}
       </Container>
     </StyledEndGameModal>
   );
@@ -50,6 +62,7 @@ const EndGameTitle = styled.h1`
   font-size: 2rem;
   font-weight: 600;
   color: #e36414;
+  text-align: center;
 `;
 
 const EndGameForm = styled.form`
@@ -80,12 +93,22 @@ const FormLabel = styled.label`
   font-size: 1rem;
   color: #fff;
 `;
+
 const FormInput = styled.input`
   padding: 0.5rem;
   color: #5f0f40;
   border: 1px solid #cb4721;
   border-radius: 10px;
   background-color: #f58220;
+`;
+
+const ScoreTable = styled.table`
+  width: 100%;
+  text-align: center;
+  th {
+    font-size: 1.4rem;
+    color: #fff;
+  }
 `;
 
 export default EndGameModal;
