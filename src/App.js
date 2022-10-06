@@ -5,13 +5,13 @@ import EndGameModal from "./components/EndGameModal";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { doc, getDoc } from "firebase/firestore";
-import firebaseFirestore from "./firebase/firebaseConfig";
+import { db } from "./firebase/firebaseConfig";
 const App = () => {
   const [timerOn, setTimerOn] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
-      const docRef = doc(firebaseFirestore, "player_stats");
+      const docRef = doc(db, "player_stats", "SF");
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
