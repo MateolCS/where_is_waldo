@@ -4,21 +4,17 @@ import Header from "./components/Header";
 import EndGameModal from "./components/EndGameModal";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase/firebaseConfig";
 const App = () => {
   const [timerOn, setTimerOn] = useState(true);
-
+  const playerDataRef = collection(db, "player_stats");
   useEffect(() => {
     const getData = async () => {
-      const docRef = doc(db, "player_stats", "SF");
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
+      const data = await getDocs(playerDataRef);
+      data.docs.map((doc) => {
+        console.log({ ...doc.data(), id: doc.id });
+      });
     };
 
     getData();
