@@ -18,9 +18,8 @@ const EndGameModal = ({ gameTime }) => {
   const getData = async () => {
     const data = await getDocs(playerDataRef);
     const players = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    players.sort((playerA, playerB) =>
-      playerA.player_time.localeCompare(playerB.player_time)
-    );
+    console.log(players);
+    players.sort((a, b) => a.player_time.localeCompare(b.player_time));
     setPlayersInfo(players);
   };
 

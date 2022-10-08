@@ -7,7 +7,7 @@ const Header = ({ timerOn, onGameStop }) => {
     <StyledHeader>
       <Contianer>
         <HeaderTitle>Where is Waldo?</HeaderTitle>
-        <Timer timerOn={timerOn} />
+        <Timer timerOn={timerOn} onGameStop={onGameStop} />
       </Contianer>
     </StyledHeader>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-const Timer = ({ timerOn }) => {
+const Timer = ({ timerOn, onGameStop }) => {
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
@@ -12,11 +12,18 @@ const Timer = ({ timerOn }) => {
       }, 1000);
     }
     if (!timerOn) {
+      onGameStop(formatTime(timer));
       clearInterval(interval);
     }
 
     return () => clearInterval(interval);
   }, [timerOn]);
+
+  const formatTime = (time) => {
+    const minutes = ("0" + Math.floor((timer / 60000) % 60)).slice(-2);
+    const seconds = ("0" + Math.floor((timer / 1000) % 60)).slice(-2);
+    return `${minutes}:${seconds}`;
+  };
 
   return (
     <StyledTimer>

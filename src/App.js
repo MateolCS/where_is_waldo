@@ -24,7 +24,7 @@ const App = () => {
     <StyledApp>
       <Header timerOn={timerOn} onGameStop={setPlayerResultTime} />
       <Game onTimerPause={pauseTimer} onTimerResume={resumeTimer} />
-      {<EndGameModal gameTime={playerResult} />}
+      {playerResult !== "" && <EndGameModal gameTime={playerResult} />}
       <Footer />
     </StyledApp>
   );
