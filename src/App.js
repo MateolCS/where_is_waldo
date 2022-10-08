@@ -2,23 +2,11 @@ import Footer from "./components/Footer";
 import Game from "./components/Game";
 import Header from "./components/Header";
 import EndGameModal from "./components/EndGameModal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase/firebaseConfig";
 const App = () => {
   const [timerOn, setTimerOn] = useState(true);
-  const playerDataRef = collection(db, "player_stats");
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getDocs(playerDataRef);
-      data.docs.map((doc) => {
-        console.log({ ...doc.data(), id: doc.id });
-      });
-    };
-
-    getData();
-  });
+  const [playerResult, setPlayerResult] = useState("");
 
   const pauseTimer = () => {
     setTimerOn(false);
@@ -28,11 +16,15 @@ const App = () => {
     setTimerOn(true);
   };
 
+  const setPlayerResultTime = (time) => {
+    setPlayerResult(time);
+  };
+
   return (
     <StyledApp>
-      <Header timerOn={timerOn} />
+      <Header timerOn={timerOn} onGameStop={setPlayerResultTime} />
       <Game onTimerPause={pauseTimer} onTimerResume={resumeTimer} />
-      <EndGameModal />
+      {<EndGameModal gameTime={playerResult} />}
       <Footer />
     </StyledApp>
   );

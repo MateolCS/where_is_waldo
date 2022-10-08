@@ -2,8 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import CharacterModal from "./CharacterModal";
 import { useState, useEffect } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
+import backgroundPhoto from "../imgs/imgData";
 
 const Game = ({ onTimerPause, onTimerResume }) => {
+  const characterCordsRef = collection(db, "correct_cords");
+
   const [openModal, setOpenModal] = useState(false);
   const [topCord, setTopCord] = useState(0);
   const [leftCord, setLeftCord] = useState(0);
@@ -13,11 +18,11 @@ const Game = ({ onTimerPause, onTimerResume }) => {
       isFound: false,
     },
     {
-      name: "Wenda",
+      name: "Oswald",
       isFound: false,
     },
     {
-      name: "Odlaw",
+      name: "Wizzard Barry",
       isFound: false,
     },
   ]);
@@ -27,6 +32,16 @@ const Game = ({ onTimerPause, onTimerResume }) => {
       onTimerPause();
     }
   });
+
+  const getCharacterCords = async (characterName) => {
+    const q = query(
+      characterCordsRef,
+      where("character_name", "==", characterName)
+    );
+    const data = await getDocs(q);
+    const cords = data.docs.map((doc) => ({ ...doc.data() }));
+    return cords[0];
+  };
 
   const allCharactersFound = () => {
     return characters.every((character) => character.isFound);
@@ -55,14 +70,35 @@ const Game = ({ onTimerPause, onTimerResume }) => {
     }
   };
 
+  const isGuessValid = async (inCharacter) => {
+    const characterData = await getCharacterCords(inCharacter.name);
+    console.log(characterData);
+    if (
+      topCord >= characterData.x_cord.min_value &&
+      topCord <= characterData.x_cord.max_value &&
+      leftCord >= characterData.y_cord.min_value &&
+      leftCord <= characterData.y_cord.max_value
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleCharacterClick = async (inCharacter) => {
-    setCharacters(
-      characters.map((character) =>
-        character.name === inCharacter.name
-          ? { ...character, isFound: true }
-          : character
-      )
-    );
+    const isValid = await isGuessValid(inCharacter);
+    console.log(topCord, "topCord");
+    console.log(leftCord, "leftCord");
+    console.log(isValid);
+    if (isValid) {
+      setCharacters(
+        characters.map((character) =>
+          character.name === inCharacter.name
+            ? { ...character, isFound: true }
+            : character
+        )
+      );
+    }
   };
 
   return (
@@ -84,8 +120,12 @@ const Game = ({ onTimerPause, onTimerResume }) => {
 
 const StyledGame = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
+  background-image: url(${backgroundPhoto});
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 export default Game;

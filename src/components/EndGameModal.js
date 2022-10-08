@@ -1,9 +1,39 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "../firebase/firebaseConfig";
+
 const EndGameModal = ({ gameTime }) => {
   const [playerName, setPlayerName] = useState("");
-  const [isPlayerNameSet, setIsPlayerNameSet] = useState(true);
+  const [isPlayerNameSet, setIsPlayerNameSet] = useState(false);
+  const [playersInfo, setPlayersInfo] = useState([]);
+
+  const playerDataRef = collection(db, "player_stats");
+
+  useEffect(() => {
+    getData();
+  });
+
+  const getData = async () => {
+    const data = await getDocs(playerDataRef);
+    const players = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    players.sort((playerA, playerB) =>
+      playerA.player_time.localeCompare(playerB.player_time)
+    );
+    setPlayersInfo(players);
+  };
+
+  const addPlayerResult = async (e) => {
+    e.preventDefault();
+    const playerData = {
+      player_name: playerName,
+      player_time: gameTime,
+    };
+    await addDoc(playerDataRef, playerData);
+    setIsPlayerNameSet(true);
+  };
+
   return (
     <StyledEndGameModal>
       <Container>
@@ -22,16 +52,24 @@ const EndGameModal = ({ gameTime }) => {
                 }}
               />
             </FormRow>
-            <SubmitButton>Submit your name</SubmitButton>
+            <SubmitButton onClick={addPlayerResult}>
+              Submit your name
+            </SubmitButton>
           </EndGameForm>
         )}
         {isPlayerNameSet && (
           <ScoreTable>
             <tbody>
               <tr>
-                <th>Player names</th>
+                <th>Player name</th>
                 <th>Time</th>
               </tr>
+              {playersInfo.map((player) => (
+                <tr key={player.player_name}>
+                  <td>{player.player_name}</td>
+                  <td>{player.player_time}</td>
+                </tr>
+              ))}
             </tbody>
           </ScoreTable>
         )}
@@ -107,6 +145,11 @@ const ScoreTable = styled.table`
   text-align: center;
   th {
     font-size: 1.4rem;
+    color: #fff;
+  }
+
+  td {
+    font-size: 1.2rem;
     color: #fff;
   }
 `;

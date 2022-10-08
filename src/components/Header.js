@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Timer from "./Timer";
 
-const Header = ({ timerOn }) => {
+const Header = ({ timerOn, onGameStop }) => {
   return (
     <StyledHeader>
       <Contianer>
